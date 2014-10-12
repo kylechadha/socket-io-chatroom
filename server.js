@@ -43,6 +43,24 @@ app.use(passport.session());                                     // persistent l
 app.use(flash());                                                // use connect-flash for flash messages stored in session
 
 
+// Socket.io Setup
+// ----------------------------------------------
+io.sockets.on('connection', function() {
+
+  socket.on(setNick, function(data) {
+    socket.set('nick', data);
+  });
+
+  socket.on('message', function (message) {
+    socket.get('nick', function (error, name) {
+      var data = { 'message' : message, nick : name };
+      socket.broadcast.emit('message', data);
+      console.log("user " + name + " send this : " + message);
+    })
+  });
+
+});
+
 // Routes
 // ----------------------------------------------
 require('./app/routes.js')(app, passport);  // load our routes and pass in our app and fully configured passport
