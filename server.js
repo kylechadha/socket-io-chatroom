@@ -15,11 +15,12 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var configDB = require('./config/database.js');
+var io = require('socket.io').listen(app);
 
 
 // Configuration
 // ----------------------------------------------
-mongoose.connect(configDB.url);
+// mongoose.connect(configDB.url);
 require('./config/passport')(passport);  // pass passport for configuration
 
 
