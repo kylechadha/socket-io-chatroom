@@ -48,18 +48,29 @@ app.use(flash());                                                // use connect-
 io.sockets.on('connection', function(socket) {
 
   socket.on('setNick', function(data) {
-    socket.set('nick', data);
+    socket['nick'] = data;
   });
 
   socket.on('message', function (message) {
-    socket.get('nick', function (error, name) {
-      var data = { 'message' : message, nick : name };
-      socket.broadcast.emit('message', data);
-      console.log("user " + name + " send this : " + message);
-    })
+    socket.broadcast.emit('message', {
+      'message' : message,
+      'nick' : socket['nick']
+    });
   });
 
 });
+
+// io.sockets.on('connection', function (socket) {
+//   socket.on('setPseudo', function (data) {
+//     socket['pseudo'] = data;
+//   });
+//   socket.on('message', function (message) {
+//     socket.broadcast.emit('message', {
+//       'message' : message,
+//       'pseudo' : socket['pseudo']
+//     });
+//   });
+// });
 
 // Routes
 // ----------------------------------------------

@@ -5,29 +5,30 @@ console.log("connected!");
 
 // Function Definitions
 var addMessage = function(message, nick) {
-  $('.chat__entries').append('<div class="message">' + nick + ': ' + message + '</div>')
+  $('.chat__entries').append('<div class="message"><p>' + nick + ': ' + message + '</p></div>');
 }
 
 var sendMessage = function() {
-  if ($('.chat__controls__input').val() !== "") {
+  if ($('.chat__controls__input').val() != "") {
     socket.emit('message', $('.chat__controls__input').val());
-    addMessage($('#messageInput').val(), "Me", new Date().toISOString(), true);
-    $('#messageInput').val('');
+    addMessage($('.chat__controls__input').val(), "Me", new Date().toISOString(), true);
+    $('.chat__controls__input').val('');
   }
 }
 
 var setNick = function() {
-  if ($('.nick__input').val() !== "") {
+  if ($('.nick__input').val() != "") {
     socket.emit('setNick', $('.nick__input').val());
     $('.chat__controls').show();
-    $('.nick__input', 'nick__set').hide();
+    $('.nick__input').hide();
+    $('.nick__set').hide();
   }
 }
 
 
 // Socket.io Controls
 socket.on('message', function(data) {
-    addMessage(data['message'], data['nick']);
+  addMessage(data['message'], data['nick']);
 });
 
 
