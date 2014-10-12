@@ -4,7 +4,6 @@
 var express  = require('express');
 var app      = express();
 var server   = require('http').Server(app);
-var path     = require('path');
 var port     = process.env.PORT || 8080;
 
 var morgan       = require('morgan');
@@ -46,9 +45,9 @@ app.use(flash());                                                // use connect-
 
 // Socket.io Setup
 // ----------------------------------------------
-io.sockets.on('connection', function() {
+io.sockets.on('connection', function(socket) {
 
-  socket.on(setNick, function(data) {
+  socket.on('setNick', function(data) {
     socket.set('nick', data);
   });
 
