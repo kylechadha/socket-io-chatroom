@@ -3,6 +3,7 @@
 // ----------------------------------------------
 var express  = require('express');
 var app      = express();
+var server   = require('http').Server(app);
 var path     = require('path');
 var port     = process.env.PORT || 8080;
 
@@ -15,7 +16,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var configDB = require('./config/database.js');
-var io = require('socket.io').listen(app);
+var io       = require('socket.io')(server);
 
 
 // Configuration
@@ -68,5 +69,5 @@ require('./app/routes.js')(app, passport);  // load our routes and pass in our a
 
 // Server
 // ----------------------------------------------
-app.listen(port);
+server.listen(port);
 console.log('The magic happens on port ' + port);
